@@ -21,6 +21,21 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+
+        Schema::create('bookmarks', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('user_id')->unsigned();
+            $table->integer('manga_id')->unsigned();
+            $table->tinyInteger('status')->unsigned()->default(0);
+            $table->timestamps();
+        });
+
+        Schema::create('favorites', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('user_id')->unsigned();
+            $table->integer('manga_id')->unsigned();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -31,5 +46,7 @@ class CreateUsersTable extends Migration
     public function down()
     {
         Schema::dropIfExists('users');
+        Schema::dropIfExists('bookmarks');
+        Schema::dropIfExists('favorites');
     }
 }

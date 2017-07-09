@@ -19,6 +19,7 @@ class CreateChaptersTable extends Migration
             $table->string('chapter_title')->nullable();
             $table->string('num');
             $table->smallInteger('chap_num')->unsigned();
+            $table->timestamps();
         });
     }
 

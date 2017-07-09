@@ -18,6 +18,7 @@ class CreatePagesTable extends Migration
             $table->integer('chapter_id')->unsgined();
             $table->string('img_path');
             $table->smallInteger('page_num')->unsigned();
+            $table->timestamps();
         });
     }
 

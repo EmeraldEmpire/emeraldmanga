@@ -20,7 +20,7 @@
 				<small>{{ $artist->name }}</small>
 			@endforeach
 		</h4>
-		<h4>Status: <small>{{ $manga->status ?  'Completed' : 'Ongoing' }}</small></h4>
+		<h4>Status: <small>{{ $manga->is_completed ?  'Completed' : 'Ongoing' }}</small></h4>
 		<h4>Description: </h4>
 		<p>{{ $manga->description ?: 'No Description'}}</p>
 

@@ -35,15 +35,40 @@ class MangaController extends Controller
 
     public function adminStoreManga()
     {
-        $manga = new Manga(request(['name', 'description', 'year_released', 'is_completed']));
-        $manga->slug = str_slug(request('name'));
-        Storage::makeDirectory('public/manga/'.$manga->slug);
-        $manga->save();
-        $manga->categories()->attach(request('categories'));
-        $manga->authors()->attach(request('authors'));
-        $manga->artists()->attach(request('artists'));
+        $this->validate(request(), [
+            'name' => 'required|max:255',
+        ]);
 
-        return $manga;
+        $slug = str_slug(request('name'));
+
+        if (Manga::where('slug', $slug)->exists()) {
+            return back();
+        }
+
+        $manga = new Manga(request([
+            'name',
+            'description', 
+            'year_released', 
+            'is_completed'
+        ]));
+
+        $manga->slug = $slug;
+        $manga->save();
+
+        Storage::makeDirectory('public/manga/'.$manga->slug);
+
+        if ($categories = request('categories')) {
+            $manga->categories()->attach($categories);
+        }
+        if ($authors = request('authors')) {
+            $manga->authors()->attach($authors);
+        }
+        if ($artists = request('artists')) {
+            $manga->artists()->attach($artists);
+        }
+         
+
+        return response(['manga' => $manga, 'categories' => $categories, 'authors' => $authors, 'artists' => $artists]);
     }
 
 }

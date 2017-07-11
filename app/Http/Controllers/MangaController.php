@@ -73,9 +73,18 @@ class MangaController extends Controller
 
     public function adminDeleteManga($slug)
     {
-        $manga = Manga::where('slug', $slug)->delete();
+        if (!$manga = Manga::where('slug', $slug)->first()) {
+            return back();
+        }
+
+        $manga->authors()->detach();
+        $manga->artists()->detach();
+        $manga->categories()->detach();
+        $manga->delete();
 
         Storage::deleteDirectory('public/manga/'.$slug);
+
+        return 'Deleted';
     }
 
 }

@@ -20,6 +20,8 @@ class CreateChaptersTable extends Migration
             $table->string('num');
             $table->smallInteger('chap_num')->unsigned();
             $table->timestamps();
+
+            $table->foreign('manga_id')->references('id')->on('mangas')->onDelete('cascade');
         });
     }
 

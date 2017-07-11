@@ -15,10 +15,12 @@ class CreatePagesTable extends Migration
     {
         Schema::create('pages', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('chapter_id')->unsgined();
+            $table->integer('chapter_id')->unsigned();
             $table->string('img_path');
             $table->smallInteger('page_num')->unsigned();
             $table->timestamps();
+
+            $table->foreign('chapter_id')->references('id')->on('chapters')->onDelete('cascade');
         });
     }
 

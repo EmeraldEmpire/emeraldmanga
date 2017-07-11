@@ -71,4 +71,11 @@ class MangaController extends Controller
         return response(['manga' => $manga, 'categories' => $categories, 'authors' => $authors, 'artists' => $artists]);
     }
 
+    public function adminDeleteManga($slug)
+    {
+        $manga = Manga::where('slug', $slug)->delete();
+
+        Storage::deleteDirectory('public/manga/'.$slug);
+    }
+
 }

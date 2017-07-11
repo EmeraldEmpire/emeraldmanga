@@ -2,8 +2,13 @@
 
 @section('content')
 	<section class="container">
-		<a href="{{ route('admin.home') }}" class="btn btn-default">Home</a><br><br>
+		<a href="{{ route('admin.home') }}" class="btn btn-default">Home</a>
+
+		<br><br>
+
 		<a href="{{ route('admin.upload.chapter', ['slug' => $manga->slug]) }}" class="btn btn-success">Add Chapter</a>
+		<a href="{{ route('admin.edit.manga', ['slug' => $manga->slug]) }}" class="btn btn-warning">Edit Manga</a>
+
 		<h2>{{ strtoupper($manga->name) }}</h2>
 		<h4>Genre(s): 
 			@foreach($manga->categories as $category)

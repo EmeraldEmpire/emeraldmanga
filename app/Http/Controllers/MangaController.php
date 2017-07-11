@@ -71,6 +71,40 @@ class MangaController extends Controller
         return response(['manga' => $manga, 'categories' => $categories, 'authors' => $authors, 'artists' => $artists]);
     }
 
+    public function adminEditManga($slug)
+    {
+        if (!$manga = Manga::where('slug', $slug)->first()) {
+            return back();
+        }
+
+        return view('admin.manga.edit', compact('manga'));
+    }
+
+    public function adminUpdateManga($slug)
+    {
+        $this->validate(request(), [
+            'name' => 'required'
+        ]);
+
+        $newSlug = str_slug(request('name'));
+
+        if (Manga::where('slug', $newSlug)->exists()) {
+            return back();
+        }
+
+        if (!$manga = Manga::where('slug', $slug)->first()) {
+            return back();
+        }
+
+        $manga->update([
+            'name' => request('name'),
+            'description' => request('description'),
+            'slug' => $newSlug
+        ]);
+
+        return $manga;
+    }
+
     public function adminDeleteManga($slug)
     {
         if (!$manga = Manga::where('slug', $slug)->first()) {
@@ -84,7 +118,7 @@ class MangaController extends Controller
 
         Storage::deleteDirectory('public/manga/'.$slug);
 
-        return 'Deleted';
+        return redirect()->route('admin.home');
     }
 
 }

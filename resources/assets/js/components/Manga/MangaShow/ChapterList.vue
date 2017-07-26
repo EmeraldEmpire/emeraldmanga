@@ -15,9 +15,15 @@
 
 		data() {
 			return {
-				chapterLink: `/admin/manga/${this.manga.slug}/${this.chapter.num}`
+
 			}
-		}
+		},
+
+		computed: {
+			chapterLink() {
+				return `/admin/manga/${this.manga.slug}/${this.chapter.num}`
+			},
+		},
 	}
 </script>
 

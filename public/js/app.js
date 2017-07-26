@@ -2512,9 +2512,14 @@ module.exports = function spread(callback) {
 	props: ['chapter', 'i', 'manga'],
 
 	data: function data() {
-		return {
-			chapterLink: '/admin/manga/' + this.manga.slug + '/' + this.chapter.num
-		};
+		return {};
+	},
+
+
+	computed: {
+		chapterLink: function chapterLink() {
+			return '/admin/manga/' + this.manga.slug + '/' + this.chapter.num;
+		}
 	}
 });
 
@@ -5130,7 +5135,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 44 */

@@ -2680,14 +2680,25 @@ module.exports = function spread(callback) {
 			this.chapters.push(data);
 		},
 		deleteChapter: function deleteChapter(data, i) {
-			// swal({
-			// 	title: 
-			// })
-			// axios.post('/admin/manga/' + this.manga.slug + '/' + this.chapter.num + '/delete')
-			// 	.then(response => {
+			swal({
+				title: "Delete Chapter",
+				text: "You are about to delete a chapter!",
+				type: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#DD6B55",
+				confirmButtonText: "Confirm",
+				closeOnConfirm: false,
+				html: false
+			}, function () {
+				var _this = this;
 
-			// 	})
-			// 	.catch(error => console.log(error.response.data))
+				axios.post('/admin/manga/' + this.manga.slug + '/' + data.num + '/delete').then(function (response) {
+					_this.chapters.splice(i, 1);
+					swal("Deleted!", "A Chapter has been deleted.", "success");
+				}).catch(function (error) {
+					return console.log(error.response.data);
+				});
+			}.bind(this));
 		}
 	}
 });

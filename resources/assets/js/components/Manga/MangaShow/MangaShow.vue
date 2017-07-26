@@ -84,14 +84,26 @@
 			},
 
 			deleteChapter(data, i) {
-				// swal({
-				// 	title: 
-				// })
-				// axios.post('/admin/manga/' + this.manga.slug + '/' + this.chapter.num + '/delete')
-				// 	.then(response => {
-
-				// 	})
-				// 	.catch(error => console.log(error.response.data))
+				swal({
+					title: "Delete Chapter",
+					text: "You are about to delete a chapter!",
+					type: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#DD6B55",
+					confirmButtonText: "Confirm",
+					closeOnConfirm: false,
+					html: false
+				}, function () {
+					axios.post('/admin/manga/' + this.manga.slug + '/' + data.num + '/delete')
+						.then(response => {
+							this.chapters.splice(i, 1)
+							swal("Deleted!",
+								"A Chapter has been deleted.",
+								"success")
+						})
+						.catch(error => console.log(error.response.data))
+					}.bind(this))
+				
 			}
 		},
 	}

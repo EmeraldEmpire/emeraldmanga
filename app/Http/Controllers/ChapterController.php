@@ -69,11 +69,14 @@ class ChapterController extends Controller
     {
         try {
             $manga = Manga::where('slug', $slug)->firstOrFail();
-            if (!$manga->chapters()->where('num', $cnum)->delete()) {
-                throw new \Exception();
-            }
+            $chapter = $manga->chapters()->where('num', $cnum)->firstOrFail();
+            $chapter->delete();
+
+            Storage::deleteDirectory('public/manga/' . $manga->id . '/' . $chapter->id);
+
+            return response()->json('success', 200);
         } catch (\Exception $e) {
-            abort(404);
+            return response()->json($e->getMessage(), 404);
         }
     }
 

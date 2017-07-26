@@ -23,7 +23,13 @@
 
 		data() {
 			return {
-				showMangaLink: `/admin/manga/${this.manga.slug}`
+				
+			}
+		},
+
+		computed: {
+			showMangaLink() {
+				return `/admin/manga/${this.manga.slug}`
 			}
 		}
 	}

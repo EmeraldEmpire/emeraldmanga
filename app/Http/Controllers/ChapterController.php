@@ -10,10 +10,10 @@ use App\Page;
 
 class ChapterController extends Controller
 {
-    public function adminViewThumb($slug, $cnum)
+    public function adminViewThumb($slug, $num_slug)
     {   
         $manga = Manga::where('slug', $slug)->first();
-        $chapter = $manga->chapters()->where('num', $cnum)->first();
+        $chapter = $manga->chapters()->where('num_slug', $num_slug)->first();
         return view('admin.manga.chapter.show', compact('manga', 'chapter'));
     }
 
@@ -30,7 +30,7 @@ class ChapterController extends Controller
     public function AdminStoreChapter($slug)
     {
     	$this->validate(request(), [
-    		'chap_num' => 'required|numeric|max:9999',
+    		'chapter_num' => 'required|numeric|max:9999',
             'img' => 'required',
             'img.*' => 'image|mimes:jpeg,png,jpg|max:2048'
     	]);
@@ -43,8 +43,8 @@ class ChapterController extends Controller
     	
     	$chapter = $manga->chapters()->create([
     		'chapter_title' => request('chapter_title'),
-    		'chap_num' => request('chap_num'),
-    		'num' => request('chap_num')
+    		'chapter_num' => request('chapter_num'),
+    		'num_slug' => request('chapter_num')
     	]);
 
     	$images = request('img');
@@ -54,9 +54,9 @@ class ChapterController extends Controller
     	foreach ($images as $key => $image) {
             $imageName = $image->getClientOriginalName();
             $path = $manga->id . '/' . $chapter->id . '/' . $imageName;
-            $image->storeAs('public/manga/'.$manga->id.'/'.$chapter->id, $imageName);
+            $image->storeAs('public/manga/' . $manga->id . '/' . $chapter->id, $imageName);
             $pageNum = ++$key;
-    		array_push($pages, ['img_path' => $path, 'page_num' => $pageNum]);
+    		array_push($pages, ['img' => $path, 'page_num' => $pageNum]);
     	}
 
         $chapter->pages()->createMany($pages);
@@ -65,11 +65,11 @@ class ChapterController extends Controller
 
     }
 
-    public function adminDeleteChapter($slug, $cnum)
+    public function adminDeleteChapter($slug, $num_slug)
     {
         try {
             $manga = Manga::where('slug', $slug)->firstOrFail();
-            $chapter = $manga->chapters()->where('num', $cnum)->firstOrFail();
+            $chapter = $manga->chapters()->where('num_slug', $num_slug)->firstOrFail();
             $chapter->delete();
 
             Storage::deleteDirectory('public/manga/' . $manga->id . '/' . $chapter->id);

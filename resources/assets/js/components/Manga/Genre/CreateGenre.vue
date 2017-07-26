@@ -9,7 +9,7 @@
 					v-model="name">
 			</div>
 
-			<button @click="add" class="btn btn-success">Add</button>
+			<button @click="addGenre" class="btn btn-success">Add</button>
 		</div>
 		
 	</div>
@@ -24,9 +24,9 @@
 		},
 
 		methods: {
-			add() {
+			addGenre() {
 				let data = { name: this.name }
-				this.$emit('addCategory', data)
+				this.$emit('addGenre', data)
 				this.name = ''
 			}
 		}

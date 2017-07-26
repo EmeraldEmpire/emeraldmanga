@@ -6,7 +6,7 @@
 
 @section('content')
 
-	<Categories :cats="{{ $categories }}"></Categories>
+	<genres :store-genres="{{ $genres }}"></genres>
 
 @endsection
 

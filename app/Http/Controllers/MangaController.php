@@ -20,7 +20,7 @@ class MangaController extends Controller
     public function adminShowManga($slug)
     {
         try {
-            $manga = Manga::with(['chapters', 'categories', 'authors', 'artists'])->where('slug', $slug)->firstOrFail();
+            $manga = Manga::with(['chapters', 'genres', 'authors', 'artists'])->where('slug', $slug)->firstOrFail();
             return view('admin.manga.show', compact('manga'));
         } catch (\ModelNotFoundException $e) {
             abort(404);
@@ -41,29 +41,30 @@ class MangaController extends Controller
     {
         $this->validate(request(), [
             'name' => 'required|unique:mangas|max:255',
-            'year_released' => 'required|numeric',
+            'year_released' => 'numeric',
             'cover_path' => 'image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
         $manga = new Manga(request([
             'name',
-            'description', 
-            'year_released', 
+            'description',
+            'year_released',
             'is_completed'
         ]));
 
         
-        if (request()->hasFile('cover_path')) {
-            $manga->cover_path = request('cover_path')->store('public/covers');
+        if (request()->hasFile('cover')) {
+            $path = pathinfo(request('cover')->store('public/covers'), PATHINFO_BASENAME);
+            $manga->cover = $path;
         }
 
         $manga->slug = request('name');
         $manga->save();
         
-        Storage::makeDirectory('public/manga/'.$manga->slug);
+        Storage::makeDirectory('public/manga/'.$manga->id);
 
-        if ($categories = request('categories')) {
-            $manga->categories()->attach($categories);
+        if ($genres = request('genres')) {
+            $manga->genres()->attach($genres);
         }
         if ($authors = request('authors')) {
             $manga->authors()->attach($authors);
@@ -126,20 +127,22 @@ class MangaController extends Controller
     {
         try {
 
-            $manga = Manga::where('slug', $slug)->firstOrFail();
-            $manga->authors()->detach();
-            $manga->artists()->detach();
-            $manga->categories()->detach();
-            $manga->delete();
-
-            Storage::deleteDirectory('public/manga/'.$slug);
-            Storage::delete($manga->cover_path);
-
-            return response()->json($manga, 200);
+            $manga = Manga::where('slug', $slug)->firstOrFail();     
             
         } catch (\Exception $e) {
             return response()->json($e->getMessage(), 404);
         }
+
+        $manga->authors()->detach();
+        $manga->artists()->detach();
+        $manga->genres()->detach();
+        $manga->delete();
+
+        Storage::deleteDirectory('public/manga/'. $manga->id);
+        Storage::delete('public/covers/' . $manga->cover);
+
+        return response()->json('Success', 200);
+
     }
 
 }

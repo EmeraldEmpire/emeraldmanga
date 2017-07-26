@@ -49,7 +49,7 @@
 			<ul class="nav nav-sidebar">
 				<li class="active"><a href="#">Dashboard</a></li>
 				<li><a href="{{ route('admin.home') }}">Manga</a></li>
-				<li><a href="{{ route('admin.index.category') }}">Genres</a></li>
+				<li><a href="{{ route('admin.index.genre') }}">Genres</a></li>
 				<li><a href="#">Authors</a></li>
 				<li><a href="#">Artists</a></li>
 			</ul>

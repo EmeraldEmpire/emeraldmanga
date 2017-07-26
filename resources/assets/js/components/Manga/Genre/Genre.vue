@@ -1,7 +1,7 @@
 <template>
 	<tr>
 		<td class="my-default">
-			<p v-show="!isUpdating">{{ category.name }}</p>
+			<p v-show="!isUpdating">{{ genre.name }}</p>
 			<input type="text" class="form-control"
 				v-show="isUpdating"
 				v-model="name">
@@ -9,7 +9,7 @@
 		<td class="actions">
 
 			<button class="btn btn-danger"
-				@click="deleteCategory">
+				@click="deleteGenre">
 				<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 				Delete
 			</button>
@@ -25,7 +25,7 @@
 
 			<button class="btn btn-success"
 					:class="{ 'hidden': !isUpdating }"
-					@click="updateCategory"
+					@click="updateGenre"
 					:disabled="isChanged">
 				<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 				Save
@@ -37,18 +37,18 @@
 
 <script>
 	export default {
-		props: ['category', 'index'],
+		props: ['genre', 'index'],
 
 		data() {
 			return {
 				isUpdating: false,
-				name: this.category.name
+				name: this.genre.name
 			}
 		},
 
 		methods: {
-			deleteCategory() {
-				this.$emit('deleteCategory', this.category, this.index)
+			deleteGenre() {
+				this.$emit('deleteGenre', this.genre, this.index)
 				if (this.isUpdating) {
 					this.isUpdating = !this.isUpdating
 				}
@@ -56,14 +56,14 @@
 
 			toggleEdit() {
 				this.isUpdating = !this.isUpdating
-				this.name = this.category.name
+				this.name = this.genre.name
 			},
 
-			updateCategory() {
+			updateGenre() {
 				let data = { name: this.name }
-				this.$emit('updateCategory', 
+				this.$emit('updateGenre', 
 					data, 
-					this.category.id, 
+					this.genre.id, 
 					this.index)
 
 				this.isUpdating = !this.isUpdating
@@ -84,7 +84,7 @@
 			},
 
 			isChanged() {
-				return (this.name.toLowerCase() == this.category.name.toLowerCase())
+				return (this.name.toLowerCase() == this.genre.name.toLowerCase())
 			}
 		}
 	}

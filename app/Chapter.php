@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Chapter extends Model
 {   
-    protected $fillable = ['manga_id', 'chapter_title', 'chap_num', 'num'];
+    protected $fillable = ['manga_id', 'chapter_title', 'chapter_num', 'num_slug'];
 
     public function pages()
     {
@@ -18,17 +18,17 @@ class Chapter extends Model
         return $this->belongsTo('App\Manga');
     }
 
-    public function setNumAttribute($value)
+    public function setNumSlugAttribute($value)
     {	
     	$num = (string)$value;
 
     	if (strlen($num) < 2 ) {
-    		return $this->attributes['num'] = 'c00'.$num;
+    		return $this->attributes['num_slug'] = 'c00'.$num;
     	}
     	if (strlen($num) < 3) {
-    		return $this->attributes['num'] = 'c0'.$num;
+    		return $this->attributes['num_slug'] = 'c0'.$num;
     	}
-    	return $this->attributes['num'] = 'c'.$num;
+    	return $this->attributes['num_slug'] = 'c'.$num;
     }
 
 }

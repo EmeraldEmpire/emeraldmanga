@@ -74,49 +74,50 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 		'uses' => 'ChapterController@adminCreateChapter'
 	]);
 
-	Route::get('/manga/{slug}/{cnum}', [
+	Route::get('/manga/{slug}/{num_slug}', [
 		'as' => 'admin.view.thumb',
 		'uses' => 'ChapterController@adminViewThumb'
 	]);
 
-	Route::post('/manga/{slug}/{cnum}', [
+	Route::post('/manga/{slug}/{num_slug}', [
 		'as' => 'admin.update.chapter',
 		'uses' => 'ChapterController@adminUpdateChapter'
 	]);
 
-	Route::post('/manga/{slug}/{cnum}/delete', [
+	Route::post('/manga/{slug}/{num_slug}/delete', [
 		'as' => 'admin.delete.chapter',
 		'uses' => 'ChapterController@adminDeleteChapter'
 	]);
 
-	Route::get('/manga/{slug}/{cnum}/edit', [
+	Route::get('/manga/{slug}/{num_slug}/edit', [
 		'as' => 'admin.edit.chapter',
 		'uses' => 'ChapterController@adminEditChapter'
 	]);
 
 	// ============ Chapter End ============
 
-	// ============ Category Start ============
+	// ============ Genre Start ============
 
-	Route::get('/categories', [
-		'as' => 'admin.index.category',
-		'uses' => 'CategoryController@adminIndexCategory'
+	Route::get('/genres', [
+	'as' => 'admin.index.genre',
+	'uses' => 'GenreController@adminIndexGenre'
 	]);
 
-	Route::post('/categories', [
-		'as' => 'admin.store.category',
-		'uses' => 'CategoryController@adminStoreCategory'
+	Route::post('/genres', [
+		'as' => 'admin.store.genre',
+		'uses' => 'GenreController@adminStoreGenre'
 	]);
 
-	Route::put('/categories/{id}', [
-		'as' => 'admin.update.category',
-		'uses' => 'CategoryController@adminUpdateCategory'
+	Route::put('/genres/{id}', [
+		'as' => 'admin.update.genre',
+		'uses' => 'GenreController@adminUpdateGenre'
 	]);
 
-	Route::delete('/categories/{id}', [
-		'as' => 'admin.delete.category',
-		'uses' => 'CategoryController@adminDeleteCategory'
+	Route::delete('/genres/{id}', [
+		'as' => 'admin.delete.genre',
+		'uses' => 'GenreController@adminDeleteGenre'
 	]);
+
 });
 
 
@@ -127,7 +128,7 @@ Route::get('/tester', function () {
 
 	$query = request('search');
 
-	$results = \App\Category::where('name', 'like', '%'.$query.'%')->get();
+	$results = \App\Genre::where('name', 'like', '%'.$query.'%')->get();
 
 	return $results;
 

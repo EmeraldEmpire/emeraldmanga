@@ -63,7 +63,7 @@
 			deleteManga(data, i) {
 				swal({
 					title: "Delete Manga",
-					text: `You are about to delete "${data.name}" manga. You will not be able to retrieve the content after deleting it.`,
+					text: `You are about to delete "${data.name}" manga. You will not be able to retrieve the contents after deleting it.`,
 					type: 'warning',
 					showCancelButton: true,
 					confirmButtonColor: '#DD6B55',

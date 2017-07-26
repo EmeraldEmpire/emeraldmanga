@@ -17,8 +17,8 @@
 						</div>
 
 						<div class="form-group">
-							<label for="categories">Genre(s)</label>
-							<select name="categories[]" id="categories" 
+							<label for="genres">Genre(s)</label>
+							<select name="genres[]" id="genres" 
 								multiple="multiple" 
 								class="form-control multi-select-search" 
 								style="width:100%"></select>
@@ -62,8 +62,8 @@
 						</div>
 
 						<div class="form-group">
-							<label for="cover_path">Cover Image</label>
-							<input type="file" name="cover_path" id="cover_path">
+							<label for="cover">Cover Image</label>
+							<input type="file" name="cover" id="cover">
 						</div>
 						
 						<button type="button" class="btn btn-success" @click="createManga">Submit</button>
@@ -98,7 +98,7 @@
 						$('.multi-select-search, .select2-multi').val([]).trigger('change')
 						swal("Added!", "A new Manga has been added.", "success")
 					})
-					.catch(error => console.log(error))
+					.catch(error => console.log(error.response.data))
 					
 			}
 		}

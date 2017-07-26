@@ -9,12 +9,14 @@ class Manga extends Model
 {
     use Relationships;
 
+    protected $appends = ['cover_path'];
+
     protected $fillable = [
     	'name', 
     	'description', 
     	'year_released', 
     	'is_completed', 
-    	'cover_path', 
+    	'cover', 
     	'slug'
     ];
 
@@ -22,12 +24,14 @@ class Manga extends Model
         $this->attributes['slug'] = str_slug($value);
     }
 
-    public function getCoverPathAttribute($value)
-    {
-        if (!$value) {
+    public function getCoverPathAttribute()
+    {   
+        $coverPath = $this->cover;
+
+        if (!$coverPath) {
             return \Storage::url('defaults/avatar2.png');
         }
 
-        return \Storage::url($value);
+        return \Storage::url('public/covers/' . $coverPath);
     }
 }

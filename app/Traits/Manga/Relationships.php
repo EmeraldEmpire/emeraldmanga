@@ -9,9 +9,9 @@ Trait Relationships {
 		return $this->hasMany('App\Chapter');
 	}
 
-    public function categories()
+    public function genres()
     {
-    	return $this->belongsToMany('App\Category');
+    	return $this->belongsToMany('App\Genre');
     }
 
     public function authors()

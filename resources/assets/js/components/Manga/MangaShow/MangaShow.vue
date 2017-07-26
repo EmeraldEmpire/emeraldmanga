@@ -14,7 +14,7 @@
 					<ul>
 						<li>
 							<p>Genre(s): </p>
-							<a v-for="category in categories" href="">{{ category.name }} </a>
+							<a v-for="genre in genres" href="">{{ genre.name }} </a>
 						</li>
 						<li>
 							<p>Author(s): </p>
@@ -71,7 +71,7 @@
 
 		data() {
 			return {
-				categories: this.manga.categories,
+				genres: this.manga.genres,
 				chapters: this.manga.chapters,
 				authors: this.manga.authors,
 				artists: this.manga.artists
@@ -94,7 +94,7 @@
 					closeOnConfirm: false,
 					html: false
 				}, function () {
-					axios.post('/admin/manga/' + this.manga.slug + '/' + data.num + '/delete')
+					axios.post('/admin/manga/' + this.manga.slug + '/' + data.num_slug + '/delete')
 						.then(response => {
 							this.chapters.splice(i, 1)
 							swal("Deleted!",

@@ -3,7 +3,7 @@
 		<h1 class="page-header">Categories</h1>
 		<div class="col-lg-6 col-lg-offset-3">
 			
-			<create-category @addCategory="addCategory"></create-category>
+			<create-genre @addGenre="addGenre"></create-genre>
 
 			<div class="panel panel-default">
 				<div class="panel-body">
@@ -17,11 +17,11 @@
 						</thead>
 
 						<tbody>
-							<category v-for="(category, index) in categories" 
-								:category="category"
+							<genre v-for="(genre, index) in genres" 
+								:genre="genre"
 								:index="index"
-								@deleteCategory="deleteCategory"
-								@updateCategory="updateCategory"></category>
+								@deleteGenre="deleteGenre"
+								@updateGenre="updateGenre"></genre>
 						</tbody>
 
 					</table>
@@ -35,45 +35,45 @@
 </template>
 
 <script>
-	import Category from './Category'
-	import CreateCategory from './CreateCategory'
+	import Genre from './Genre'
+	import CreateGenre from './CreateGenre'
 
 	export default {
 		components: {
-			Category,
-			CreateCategory
+			Genre,
+			CreateGenre
 		},
-		props: ['cats'],
+		props: ['storeGenres'],
 
 		data() {
 			return {
-				categories: this.cats
+				genres: this.storeGenres
 			}
 		},
 
 		methods: {
-			addCategory(data) {
-				axios.post('/admin/categories', data)
+			addGenre(data) {
+				axios.post('/admin/genres', data)
 					.then(response => {	
-						this.cats.push(response.data);
-						swal("Added!", "New category has been added.", "success")
+						this.genres.push(response.data);
+						swal("Added!", "New genre has been added.", "success")
 					})
 					.catch(error => console.log(error.response.data))
 			},
 
-			updateCategory(data, id, index) {
-				axios.put('/admin/categories/' + id, data)
+			updateGenre(data, id, index) {
+				axios.put('/admin/genres/' + id, data)
 					.then(response => {
-						this.categories.splice(index, 1, response.data)
-						swal("Updated", "Category has been successfully updated.", "success")
+						this.genres.splice(index, 1, response.data)
+						swal("Updated", "Genre has been successfully updated.", "success")
 					})
 					.catch(error => console.log(error.response.data))
 			},
 
-			deleteCategory(data, index) {
+			deleteGenre(data, index) {
 				swal({
 					title: 'Are you sure?',
-					text: 'You are about to delete ' + data.name + ' Category',
+					text: 'You are about to delete ' + data.name + ' Genre',
 					type: 'warning',
 					showCancelButton: true,
 					confirmButtonColor: '#DD6B55',
@@ -82,12 +82,12 @@
 					html: false
 
 				}, function () {
-					axios.delete('/admin/categories/' + data.id)
+					axios.delete('/admin/genres/' + data.id)
 						.then(response => {
-							this.categories.splice(index, 1)
+							this.genres.splice(index, 1)
 
 							swal('Deleted',
-							data.name + ' Category has been deleted.',
+							data.name + ' Genre has been deleted.',
 							'success')
 						})
 						.catch(error => console.log(error.response.data))	

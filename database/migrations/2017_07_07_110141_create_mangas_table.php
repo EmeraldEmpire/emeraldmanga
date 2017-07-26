@@ -18,9 +18,9 @@ class CreateMangasTable extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('slug')->unique();
-            $table->string('cover_path')->nullable();
+            $table->string('cover')->nullable();
             $table->integer('views')->unsigned()->default(0);
-            $table->smallInteger('year_released')->unsigned();
+            $table->smallInteger('year_released')->nullable()->unsigned();
             $table->boolean('is_completed')->default(0);
             $table->timestamps();
         });

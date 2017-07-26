@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePagesTable extends Migration
+class CreateGenresTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,15 @@ class CreatePagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('pages', function (Blueprint $table) {
+        Schema::create('genres', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('chapter_id')->unsigned();
-            $table->smallInteger('page_num')->unsigned();
-            $table->string('img');
+            $table->string('name');
             $table->timestamps();
+        });
 
-            $table->foreign('chapter_id')->references('id')->on('chapters')->onDelete('cascade');
+        Schema::create('genre_manga', function (Blueprint $table) {
+            $table->integer('genre_id')->unsigned();
+            $table->integer('manga_id')->unsigned();
         });
     }
 
@@ -31,6 +32,6 @@ class CreatePagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pages');
+        Schema::dropIfExists('genres');
     }
 }

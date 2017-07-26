@@ -15,7 +15,7 @@
 
 						<div class="form-group">
 							<label for="number">Chapter Number</label>
-							<input type="number" name="chap_num" id="number" class="form-control" placeholder="ex: 1">
+							<input type="number" name="chapter_num" id="number" class="form-control" placeholder="ex: 1">
 						</div>
 
 						<div class="form-group">
@@ -57,6 +57,7 @@
 							$('#createChapter').modal('hide')
 						}
 						swal("Added!", "A new Manga has been added.", "success")
+						console.log(response.data)
 					})
 					.catch(error => console.log(error.response.data))
 			}

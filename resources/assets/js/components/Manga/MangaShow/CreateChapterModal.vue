@@ -22,7 +22,8 @@
 							<label for="image">Chapter Pages</label>
 							<input multiple type="file" name="img[]" id="image" class="form-control">
 						</div>
-
+						
+						<button type="button" class="btn btn-primary" @click="createChapter('dismiss')">Submit and Dismiss</button>
 						<button type="button" class="btn btn-success" @click="createChapter">Submit</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 						
@@ -45,13 +46,16 @@
 		},
 
 		methods: {
-			createChapter() {
+			createChapter(submitType = null) {
 				let createChapterRef = this.$refs.createChapterRef
 				let formData = new FormData(createChapterRef)
 				axios.post('/admin/manga/' + this.manga.slug + '/chapters', formData)
 					.then(response => {
 						this.$emit('createChapter', response.data)
 						createChapterRef.reset()
+						if (submitType == 'dismiss') {
+							$('#createChapter').modal('hide')
+						}
 						swal("Added!", "A new Manga has been added.", "success")
 					})
 					.catch(error => console.log(error.response.data))

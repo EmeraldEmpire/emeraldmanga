@@ -2559,6 +2559,7 @@ module.exports = function spread(callback) {
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
 	props: ['manga'],
@@ -2574,11 +2575,16 @@ module.exports = function spread(callback) {
 		createChapter: function createChapter() {
 			var _this = this;
 
+			var submitType = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
 			var createChapterRef = this.$refs.createChapterRef;
 			var formData = new FormData(createChapterRef);
 			axios.post('/admin/manga/' + this.manga.slug + '/chapters', formData).then(function (response) {
 				_this.$emit('createChapter', response.data);
 				createChapterRef.reset();
+				if (submitType == 'dismiss') {
+					$('#createChapter').modal('hide');
+				}
 				swal("Added!", "A new Manga has been added.", "success");
 			}).catch(function (error) {
 				return console.log(error.response.data);
@@ -5117,7 +5123,7 @@ if (typeof jQuery === 'undefined') {
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 43 */
@@ -33218,6 +33224,16 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "enctype": "multipart/form-data"
     }
   }, [_vm._m(1), _vm._v(" "), _vm._m(2), _vm._v(" "), _vm._m(3), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-primary",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.createChapter('dismiss')
+      }
+    }
+  }, [_vm._v("Submit and Dismiss")]), _vm._v(" "), _c('button', {
     staticClass: "btn btn-success",
     attrs: {
       "type": "button"

@@ -1,8 +1,15 @@
 @extends('layouts.app')
 
+@section('stylesheets')
+	<link rel="stylesheet" href="{{ asset('css/sweetalert.css') }}">
+@endsection
+
 @section('content')
 
-	<section class="container">
-		<h1>Categories</h1>
-	</section>
+	<Categories :cats="{{ $categories }}"></Categories>
+
+@endsection
+
+@section('scripts')
+	<script src="{{ asset('js/sweetalert.min.js') }}" ></script>
 @endsection

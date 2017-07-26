@@ -10,6 +10,8 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+DB::enableQueryLog();
+// DB::getQueryLog();
 
 Route::get('/', function () {
     return view('welcome');
@@ -19,37 +21,123 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::prefix('admin')->group(function () {
-	//home
-	Route::get('/', 'MangaController@adminIndex')->name('admin.home');
+Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 
-	//create
-	Route::get('/create/manga', 'MangaController@adminCreateManga')->name('admin.create.manga');
-	Route::get('/{slug}/upload', 'ChapterController@adminUploadChapter')->name('admin.upload.chapter');
-	Route::get('/categories/add', 'CategoryController@adminAddCategories')->name('admin.add.categories');
+	// ============ Manga ============
 
-	//store
-	Route::post('/{slug}/upload', 'ChapterController@adminStoreChapter')->name('admin.store.chapter');
-	Route::post('/categories/add', 'CategoryController@adminStoreCategories')->name('admin.store.categories');
-	Route::post('/create/manga', 'MangaController@adminStoreManga')->name('admin.store.manga');
+	Route::get('/manga', [
+		'as' => 'admin.home',
+		'uses' => 'MangaController@adminIndex'
+	]);
 
-	//edit
-	Route::get('/edit/{slug}', 'MangaController@adminEditManga')->name('admin.edit.manga');
-	Route::get('/categories/edit', 'CategoryController@adminEditCategories')->name('admin.edit.categories');
+	Route::post('/manga', [
+		'as' => 'admin.store.manga',
+		'uses' => 'MangaController@adminStoreManga'
+	]);
 
-	//update
-	Route::post('/edit/{slug}', 'MangaController@adminUpdateManga')->name('admin.update.manga');
+	Route::get('/manga/create', [
+		'as' => 'admin.create.manga',
+		'uses' => 'MangaController@adminCreateManga'
+	]);
 
-	//delete
-	Route::post('/delete/manga/{slug}', 'MangaController@adminDeleteManga')->name('admin.delete.manga');
+	Route::get('/manga/{slug}', [
+		'as' => 'admin.show.manga',
+		'uses' => 'MangaController@adminShowManga'
+	]);
 
-	//view all
-	Route::get('/categories', 'CategoryController@adminViewCategories')->name('admin.view.categories');
+	Route::post('/manga/{slug}', [
+		'as' => 'admin.update.manga',
+		'uses' => 'MangaController@adminUpdateManga'
+	]);
+
+	Route::post('/manga/{slug}/delete', [
+		'as' => 'admin.delete.manga',
+		'uses' => 'MangaController@adminDeleteManga'
+	]);
+
+	Route::get('/manga/{slug}/edit', [
+		'as' => 'admin.edit.manga',
+		'uses' => 'MangaController@adminEditManga'
+	]);
+
+	// ============ Manga End ============
+
+	// ============ Chapter Start ============
+
+	Route::post('/manga/{slug}/chapters', [
+		'as' => 'admin.store.chapter',
+		'uses' => 'ChapterController@adminStoreChapter'
+	]);
+
+	Route::get('/manga/{slug}/chapters/create', [
+		'as' => 'admin.create.chapter',
+		'uses' => 'ChapterController@adminCreateChapter'
+	]);
+
+	Route::get('/manga/{slug}/{cnum}', [
+		'as' => 'admin.view.thumb',
+		'uses' => 'ChapterController@adminViewThumb'
+	]);
+
+	Route::post('/manga/{slug}/{cnum}', [
+		'as' => 'admin.update.chapter',
+		'uses' => 'ChapterController@adminUpdateChapter'
+	]);
+
+	Route::post('/manga/{slug}/{cnum}/delete', [
+		'as' => 'admin.delete.chapter',
+		'uses' => 'ChapterController@adminDeleteChapter'
+	]);
+
+	Route::get('/manga/{slug}/{cnum}/edit', [
+		'as' => 'admin.edit.chapter',
+		'uses' => 'ChapterController@adminEditChapter'
+	]);
+
+	// ============ Chapter End ============
+
+	// ============ Category Start ============
+
+	Route::get('/categories', [
+		'as' => 'admin.index.category',
+		'uses' => 'CategoryController@adminIndexCategory'
+	]);
+
+	Route::post('/categories', [
+		'as' => 'admin.store.category',
+		'uses' => 'CategoryController@adminStoreCategory'
+	]);
+
+	Route::put('/categories/{id}', [
+		'as' => 'admin.update.category',
+		'uses' => 'CategoryController@adminUpdateCategory'
+	]);
+
+	Route::delete('/categories/{id}', [
+		'as' => 'admin.delete.category',
+		'uses' => 'CategoryController@adminDeleteCategory'
+	]);
+});
+
+
+
+
+
+Route::get('/tester', function () {
+
+	$query = request('search');
+
+	$results = \App\Category::where('name', 'like', '%'.$query.'%')->get();
+
+	return $results;
+
+});
+
+
+Route::get('/tester2', function () {
+
 	
-	//show
-	Route::get('/{slug}', 'MangaController@adminShowManga')->name('admin.show.manga');
-	Route::get('/thumb/{slug}/{cnum}', 'ChapterController@adminViewThumb')->name('admin.view.thumb');
-	
+
 });
 
 

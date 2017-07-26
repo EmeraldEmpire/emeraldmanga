@@ -3,28 +3,31 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\Manga\Relationships;
 
 class Manga extends Model
 {
-    protected $fillable = ['name', 'description', 'year_released', 'is_completed', 'cover_path', 'slug'];
+    use Relationships;
 
-    public function chapters()
-    {
-    	return $this->hasMany('App\Chapter');
+    protected $fillable = [
+    	'name', 
+    	'description', 
+    	'year_released', 
+    	'is_completed', 
+    	'cover_path', 
+    	'slug'
+    ];
+
+    public function setSlugAttribute($value) {
+        $this->attributes['slug'] = str_slug($value);
     }
 
-    public function categories()
+    public function getCoverPathAttribute($value)
     {
-    	return $this->belongsToMany('App\Category');
-    }
+        if (!$value) {
+            return \Storage::url('defaults/avatar2.png');
+        }
 
-    public function authors()
-    {
-    	return $this->belongsToMany('App\Author');
-    }
-
-    public function artists()
-    {
-    	return $this->belongsToMany('App\Artist');
+        return \Storage::url($value);
     }
 }

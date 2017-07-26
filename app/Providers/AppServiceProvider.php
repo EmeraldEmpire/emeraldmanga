@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
+use DB;
+use Event;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,6 +17,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+        view()->composer('admin.manga.index', function ($view) {
+            $view->with('authors', \App\Author::all());
+            $view->with('artists', \App\Artist::all());
+        });
     }
 
     /**

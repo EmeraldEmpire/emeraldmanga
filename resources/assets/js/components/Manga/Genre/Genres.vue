@@ -1,6 +1,6 @@
 <template>
 	<div class="clearfix">
-		<h1 class="page-header">Categories</h1>
+		<h1 class="page-header">Genres</h1>
 		<div class="col-lg-6 col-lg-offset-3">
 			
 			<create-genre @addGenre="addGenre"></create-genre>
@@ -11,7 +11,7 @@
 
 						<thead>
 							<tr>
-								<th>Categories</th>
+								<th>Genres</th>
 								<th style="width:45%;">Actions</th>
 							</tr>			
 						</thead>

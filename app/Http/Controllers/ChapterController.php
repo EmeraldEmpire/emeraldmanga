@@ -23,7 +23,7 @@ class ChapterController extends Controller
             $manga = Manga::where('slug', $slug)->firstOrFail();
             return view('admin.manga.chapter.create', compact('manga'));
         } catch (\ModelNotFoundException $e) {
-            
+            abort(404);
         }
     }
 

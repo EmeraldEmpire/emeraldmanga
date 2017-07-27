@@ -33788,7 +33788,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "clearfix"
   }, [_c('h1', {
     staticClass: "page-header"
-  }, [_vm._v("Categories")]), _vm._v(" "), _c('div', {
+  }, [_vm._v("Genres")]), _vm._v(" "), _c('div', {
     staticClass: "col-lg-6 col-lg-offset-3"
   }, [_c('create-genre', {
     on: {
@@ -33814,7 +33814,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }))])])])], 1)])
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('thead', [_c('tr', [_c('th', [_vm._v("Categories")]), _vm._v(" "), _c('th', {
+  return _c('thead', [_c('tr', [_c('th', [_vm._v("Genres")]), _vm._v(" "), _c('th', {
     staticStyle: {
       "width": "45%"
     }
@@ -33846,7 +33846,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "for": "name"
     }
-  }, [_vm._v("Add New Category")]), _vm._v(" "), _c('input', {
+  }, [_vm._v("Add New Genre")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",

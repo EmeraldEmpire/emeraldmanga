@@ -3,7 +3,7 @@
 
 		<div class="panel-body">		
 			<div class="form-group">
-				<label for="name">Add New Category</label>
+				<label for="name">Add New Genre</label>
 				<input type="text" id="name" 
 					class="form-control" 
 					v-model="name">

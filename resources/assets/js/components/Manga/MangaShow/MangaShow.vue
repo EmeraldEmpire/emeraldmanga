@@ -7,30 +7,11 @@
 			</div>
 
 			<div class="panel-body">
-				<div class="inner-details">
-					<figure class="cover">
-						<img :src="manga.cover_path" :alt="manga.name">
-					</figure>
-					<ul>
-						<li>
-							<p>Genre(s): </p>
-							<a v-for="genre in genres" href="">{{ genre.name }} </a>
-						</li>
-						<li>
-							<p>Author(s): </p>
-							<a v-for="author in authors" href="">{{ author.name }} </a>
-						</li>
-						<li>
-							<p>Artist(s): </p>
-							<a v-for="artist in artists" href="">{{ artist.name }} </a>
-						</li>
-						<li>
-							<p>Synopsis: </p> 
-							<h5 class="well">{{ manga.description }}</h5>
-						</li>
-					</ul>
-				</div>
-				
+				<manga-details :manga="manga"
+					@updateManga="updateManga"
+					:genres="genres"
+					:authors="authors"
+					:artists="artists"></manga-details>
 			</div>
 		</div>
 
@@ -43,7 +24,7 @@
 				<h4>Chapter List</h4>
 				<table class="table table-bordered">
 					<tbody>
-						<chapter-list v-for="(chapter, i) in chapters"
+						<chapter-list v-for="(chapter, i) in manga.chapters"
 							:i="i"
 							:chapter="chapter"
 							:manga="manga"
@@ -60,27 +41,27 @@
 <script>
 	import CreateChapterModal from './CreateChapterModal.vue'
 	import ChapterList from './ChapterList.vue'
+	import MangaDetails from './MangaDetails'
 
 	export default {
 		components: {
 			CreateChapterModal,
-			ChapterList
+			ChapterList,
+			MangaDetails
 		},
 
-		props: ['manga'],
+		props: ['storeManga', 'genres', 'authors', 'artists'],
 
 		data() {
 			return {
-				genres: this.manga.genres,
-				chapters: this.manga.chapters,
-				authors: this.manga.authors,
-				artists: this.manga.artists
+				manga: this.storeManga,
+				isUpdating: false
 			}
 		},
 
 		methods: {
 			createChapter(data) {
-				this.chapters.push(data)
+				this.manga.chapters.push(data)
 			},
 
 			deleteChapter(data, i) {
@@ -96,7 +77,7 @@
 				}, function () {
 					axios.post('/admin/manga/' + this.manga.slug + '/' + data.num_slug + '/delete')
 						.then(response => {
-							this.chapters.splice(i, 1)
+							this.manga.chapters.splice(i, 1)
 							swal("Deleted!",
 								"A Chapter has been deleted.",
 								"success")
@@ -104,6 +85,16 @@
 						.catch(error => console.log(error.response.data))
 					}.bind(this))
 				
+			},
+
+			updateManga(data) {
+				axios.post(`/admin/manga/${this.manga.slug}`, data)
+					.then(response => {
+						this.manga = response.data
+						Bus.$emit('updated')
+						swal("Updated!", "Manga has been updated.", "success")
+					})
+					.catch(error => console.log(error.response))
 			}
 		},
 	}
@@ -111,47 +102,4 @@
 
 <style lang="scss">
 	
-	.chapter-list {
-		margin: 0;
-		padding: 0;
-		list-style: none;
-	}
-
-	.inner-details {
-
-		ul {
-			list-style: none;
-			margin: 20px 0 0 20px;
-			padding: 0;
-			float: left;
-			li {
-				a {
-					text-decoration: none;
-				}
-
-				h5 {
-					margin: 0;
-				}
-			}
-			
-		}
-
-		p {
-			display: inline-block;
-			font-weight: 700;
-		}
-	}
-
-	.cover {
-		display: inline-block;
-		height: 354px;
-		width: 254px;
-		border: 2px solid #e5e5e5;
-		float: left;
-
-		img {
-			max-height: 350px;
-			max-width: 250px;
-		}
-	}
 </style>

@@ -9,10 +9,12 @@
 				<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 				Delete
 			</button>
-			<button class="btn btn-default">
+			<a class="btn btn-default"
+				:href="showMangaLink"
+				@click="editManga(manga.slug)">
 				<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
 				Edit
-			</button>
+			</a>
 		</td>
 	</tr>
 </template>
@@ -20,13 +22,7 @@
 <script>
 	export default {
 		props: ['manga', 'i'],
-
-		data() {
-			return {
-				
-			}
-		},
-
+		
 		computed: {
 			showMangaLink() {
 				return `/admin/manga/${this.manga.slug}`

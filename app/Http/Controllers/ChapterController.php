@@ -61,7 +61,7 @@ class ChapterController extends Controller
 
         $chapter->pages()->createMany($pages);
 
-        return response()->json($chapter->load('pages'), 201);
+        return response()->json($chapter, 201);
 
     }
 

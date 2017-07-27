@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Manga;
-use App\Category;
+use App\Genre;
 use App\Artist;
 Use App\Author;
 
@@ -21,7 +21,10 @@ class MangaController extends Controller
     {
         try {
             $manga = Manga::with(['chapters', 'genres', 'authors', 'artists'])->where('slug', $slug)->firstOrFail();
-            return view('admin.manga.show', compact('manga'));
+            $genres = Genre::all();
+            $authors = Author::all();
+            $artists = Artist::all();
+            return view('admin.manga.show', compact('manga', 'genres', 'authors', 'artists'));
         } catch (\ModelNotFoundException $e) {
             abort(404);
         }
@@ -82,9 +85,9 @@ class MangaController extends Controller
 
         try {
             $manga = Manga::where('slug', $slug)->firstOrFail();
-            return view('admin.manga.edit', compact('manga'));
-        } catch (\ModelNotFoundException $e) {
-            abort(404);
+            return response()->json($manga, 200);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(), 404);
         }
 
         
@@ -105,7 +108,7 @@ class MangaController extends Controller
         
         $newName = request('name');
 
-        if ($manga->name != request('name')) {
+        if ($manga->name != $newName) {
             $this->validate(request(), [
                 'name' => 'unique:mangas'
             ]);
@@ -116,10 +119,20 @@ class MangaController extends Controller
             ]);
         }
 
+        $genres = request('genres');
+        $authors = request('authors');
+        $artists = request('artists');
+
+        $manga->genres()->sync($genres);
+        $manga->authors()->sync($authors);
+        $manga->artists()->sync($artists);
+
         $manga->description = request('description');
         $manga->save();
 
-        return redirect()->route('admin.show.manga', ['slug' => $manga->slug]);
+        $manga = $manga->load(['chapters', 'genres', 'authors', 'artists']);
+
+        return response()->json($manga, 200);
         
     }
 
@@ -139,7 +152,10 @@ class MangaController extends Controller
         $manga->delete();
 
         Storage::deleteDirectory('public/manga/'. $manga->id);
-        Storage::delete('public/covers/' . $manga->cover);
+        if ($manga->cover) {
+            Storage::delete('public/covers/' . $manga->cover);
+        }
+        
 
         return response()->json('Success', 200);
 

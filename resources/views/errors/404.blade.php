@@ -3,11 +3,11 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>NOT FOUND BITCH</title>
+	<title>NOT FOUND</title>
 	<link rel="stylesheet" href="">
 </head>
 <body>
-	<h1>404 GO FUCK YOURSELF</h1>
-	<a href="{{ route('admin.home') }}">go back. fucking idiot</a>
+	<h1>404 NOT FOUND</h1>
+	<a href="{{ route('admin.home') }}">go back.</a>
 </body>
 </html>

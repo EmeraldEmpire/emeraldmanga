@@ -26,13 +26,11 @@
     <script src="{{ asset('js/select2.min.js') }}" ></script>
     <script type="text/javascript">
         $('.select2-multi').select2({
-            minimumResultsForSearch: Infinity,
-            allowClear: true
+            minimumResultsForSearch: Infinity
         });
 
         $('.multi-select-search').select2({
             minimumInputLength: 2,
-            allowClear: true,
             ajax: {
                 url: '/tester',
                 delay: 250,

@@ -5,7 +5,10 @@
 @endsection
 
 @section('content')
-	<manga-show :manga="{{ $manga }}"></manga-show>
+	<manga-show :store-manga="{{ $manga }}"
+		:genres="{{ $genres }}"
+		:authors="{{ $authors }}"
+		:artists="{{ $artists }}"></manga-show>
 @endsection
 
 @section('scripts')

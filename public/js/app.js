@@ -2426,7 +2426,7 @@ module.exports = function spread(callback) {
 
 	methods: {
 		createManga: function createManga(data) {
-			this.mangas.push(data);
+			this.mangas.unshift(data);
 		},
 		deleteManga: function deleteManga(data, i) {
 			swal({
@@ -2442,7 +2442,7 @@ module.exports = function spread(callback) {
 			}, function () {
 				var _this = this;
 
-				axios.post('/admin/manga/' + data.slug + '/delete').then(function (response) {
+				axios.delete('/admin/manga/' + data.id).then(function (response) {
 					_this.mangas.splice(i, 1);
 
 					swal('Deleted', '"' + data.name + '" Manga has been deleted.', 'success');
@@ -2488,7 +2488,7 @@ module.exports = function spread(callback) {
 
 	computed: {
 		showMangaLink: function showMangaLink() {
-			return '/admin/manga/' + this.manga.slug;
+			return '/admin/manga/' + this.manga.id;
 		}
 	}
 });
@@ -2515,13 +2515,6 @@ module.exports = function spread(callback) {
 
 	data: function data() {
 		return {};
-	},
-
-
-	computed: {
-		chapterLink: function chapterLink() {
-			return '/admin/manga/' + this.manga.slug + '/' + this.chapter.num_slug;
-		}
 	}
 });
 
@@ -2586,7 +2579,7 @@ module.exports = function spread(callback) {
 
 			var createChapterRef = this.$refs.createChapterRef;
 			var formData = new FormData(createChapterRef);
-			axios.post('/admin/manga/' + this.manga.slug + '/chapters', formData).then(function (response) {
+			axios.post('/admin/manga/' + this.manga.id + '/chapters', formData).then(function (response) {
 				_this.$emit('createChapter', response.data);
 				createChapterRef.reset();
 				if (submitType == 'dismiss') {
@@ -2845,7 +2838,7 @@ module.exports = function spread(callback) {
 
 	methods: {
 		createChapter: function createChapter(data) {
-			this.manga.chapters.push(data);
+			this.manga.chapters.unshift(data);
 		},
 		deleteChapter: function deleteChapter(data, i) {
 			swal({
@@ -2860,7 +2853,7 @@ module.exports = function spread(callback) {
 			}, function () {
 				var _this = this;
 
-				axios.post('/admin/manga/' + this.manga.slug + '/' + data.num_slug + '/delete').then(function (response) {
+				axios.delete('/admin/manga/' + data.manga_id + '/chapters/' + data.id).then(function (response) {
 					_this.manga.chapters.splice(i, 1);
 					swal("Deleted!", "A Chapter has been deleted.", "success");
 				}).catch(function (error) {
@@ -2871,7 +2864,7 @@ module.exports = function spread(callback) {
 		updateManga: function updateManga(data) {
 			var _this2 = this;
 
-			axios.post('/admin/manga/' + this.manga.slug, data).then(function (response) {
+			axios.post('/admin/manga/' + this.manga.id, data).then(function (response) {
 				_this2.manga = response.data;
 				Bus.$emit('updated');
 				swal("Updated!", "Manga has been updated.", "success");
@@ -5303,7 +5296,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 45 */
@@ -33555,7 +33548,7 @@ if (false) {
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('tr', [_c('td', [_vm._v(_vm._s(_vm.manga.name) + " Ch - "), _c('a', {
     attrs: {
-      "href": _vm.chapterLink
+      "href": _vm.chapter.href
     }
   }, [_vm._v(_vm._s(_vm.chapter.chapter_num))])]), _vm._v(" "), _c('td', {
     staticClass: "actions"

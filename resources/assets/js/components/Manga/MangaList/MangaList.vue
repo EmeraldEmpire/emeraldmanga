@@ -57,7 +57,7 @@
 
 		methods: {
 			createManga(data) {
-				this.mangas.push(data)
+				this.mangas.unshift(data)
 			},
 
 			deleteManga(data, i) {
@@ -72,7 +72,7 @@
 					html: false
 
 				}, function () {
-					axios.post(`/admin/manga/${data.slug}/delete`)
+					axios.delete(`/admin/manga/${data.id}`)
 						.then(response => {
 							this.mangas.splice(i, 1)
 

@@ -6,7 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Chapter extends Model
 {   
-    protected $fillable = ['manga_id', 'chapter_title', 'chapter_num', 'num_slug'];
+    protected $appends = ['href'];
+    
+    protected $fillable = [
+        'manga_id', 
+        'chapter_title', 
+        'chapter_num', 
+        'num_slug'
+    ];
 
     public function pages()
     {
@@ -29,6 +36,11 @@ class Chapter extends Model
     		return $this->attributes['num_slug'] = 'c0'.$num;
     	}
     	return $this->attributes['num_slug'] = 'c'.$num;
+    }
+
+    public function getHrefAttribute()
+    {
+        return route('admin.show.chapter', ['manga' => $this->manga_id, 'chapter' => $this->id]);
     }
 
 }

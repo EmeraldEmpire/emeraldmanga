@@ -61,7 +61,7 @@
 
 		methods: {
 			createChapter(data) {
-				this.manga.chapters.push(data)
+				this.manga.chapters.unshift(data)
 			},
 
 			deleteChapter(data, i) {
@@ -75,7 +75,7 @@
 					closeOnConfirm: false,
 					html: false
 				}, function () {
-					axios.post('/admin/manga/' + this.manga.slug + '/' + data.num_slug + '/delete')
+					axios.delete('/admin/manga/' + data.manga_id + '/chapters/' + data.id)
 						.then(response => {
 							this.manga.chapters.splice(i, 1)
 							swal("Deleted!",
@@ -88,7 +88,7 @@
 			},
 
 			updateManga(data) {
-				axios.post(`/admin/manga/${this.manga.slug}`, data)
+				axios.post(`/admin/manga/${this.manga.id}`, data)
 					.then(response => {
 						this.manga = response.data
 						Bus.$emit('updated')

@@ -49,7 +49,7 @@
 			createChapter(submitType = null) {
 				let createChapterRef = this.$refs.createChapterRef
 				let formData = new FormData(createChapterRef)
-				axios.post('/admin/manga/' + this.manga.slug + '/chapters', formData)
+				axios.post('/admin/manga/' + this.manga.id + '/chapters', formData)
 					.then(response => {
 						this.$emit('createChapter', response.data)
 						createChapterRef.reset()

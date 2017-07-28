@@ -25,7 +25,7 @@
 		
 		computed: {
 			showMangaLink() {
-				return `/admin/manga/${this.manga.slug}`
+				return `/admin/manga/${this.manga.id}`
 			}
 		}
 	}

@@ -9,7 +9,10 @@ class Manga extends Model
 {
     use Relationships;
 
-    protected $appends = ['cover_path'];
+    protected $appends = [
+        'cover_path',
+        'href',
+        ];
 
     protected $fillable = [
     	'name', 
@@ -34,4 +37,10 @@ class Manga extends Model
 
         return \Storage::url('public/covers/' . $coverPath);
     }
+
+    public function getHrefAttribute()
+    {
+        return route('admin.show.manga', ['manga' => $this->id]);
+    }
+    
 }

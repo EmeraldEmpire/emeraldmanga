@@ -1,6 +1,6 @@
 <template>
 	<tr>
-		<td><a :href="showMangaLink">{{ manga.name }}</a></td>
+		<td><a :href="manga.href">{{ manga.name }}</a></td>
 		<td>{{ manga.description }}</td>
 		<td>{{ manga.is_completed }}</td>
 		<td>{{ manga.year_released }}</td>
@@ -10,7 +10,7 @@
 				Delete
 			</button>
 			<a class="btn btn-default"
-				:href="showMangaLink"
+				:href="manga.href"
 				@click="editManga(manga.slug)">
 				<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
 				Edit
@@ -21,13 +21,7 @@
 
 <script>
 	export default {
-		props: ['manga', 'i'],
-		
-		computed: {
-			showMangaLink() {
-				return `/admin/manga/${this.manga.id}`
-			}
-		}
+		props: ['manga', 'i']
 	}
 </script>
 

@@ -2484,13 +2484,7 @@ module.exports = function spread(callback) {
 //
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-	props: ['manga', 'i'],
-
-	computed: {
-		showMangaLink: function showMangaLink() {
-			return '/admin/manga/' + this.manga.id;
-		}
-	}
+	props: ['manga', 'i']
 });
 
 /***/ }),
@@ -34374,7 +34368,7 @@ if (false) {
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('tr', [_c('td', [_c('a', {
     attrs: {
-      "href": _vm.showMangaLink
+      "href": _vm.manga.href
     }
   }, [_vm._v(_vm._s(_vm.manga.name))])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.manga.description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.manga.is_completed))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.manga.year_released))]), _vm._v(" "), _c('td', {
     staticClass: "actions"
@@ -34393,7 +34387,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }), _vm._v("\n\t\t\tDelete\n\t\t")]), _vm._v(" "), _c('a', {
     staticClass: "btn btn-default",
     attrs: {
-      "href": _vm.showMangaLink
+      "href": _vm.manga.href
     },
     on: {
       "click": function($event) {

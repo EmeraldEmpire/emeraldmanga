@@ -25,7 +25,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-require('internal-api/admin.php');
+require('admin/admin.php');
 
 
 
